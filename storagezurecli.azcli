@@ -21,11 +21,14 @@ az group list --query [].name
 
 #create blank template file
 $templateFile = 'adatumazuretemplate.json'
-$templateName = 'resourcetemplate'
+$templateName = 'parametertemplate'
+$storageName = 'adatumstoragetest12345'
 
+#create StorageAccount with parameters storageName give, SKU wrongly given
 az group deployment create `
     --name $templateName    `
     --resource-group $rgName    `
-    --template-file $templateFile
+    --template-file $templateFile   `
+    --parameters storageName=$storageName storageSku='Standard_GRS'
 
 az group delete --name $rgName --no-wait --yes 

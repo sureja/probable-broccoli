@@ -1,14 +1,31 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
+    "parameters":{
+        "storageName":{
+            "type":"string",
+            "minLength":3,
+            "maxLength":24
+        },
+
+        "storageSku":{
+            "type":"string",
+            "defaultValue":"Standard_LRS",
+            "allowedValues":[
+                "Standard_LRS",
+                "Standard_RAGRS",
+                "Standard_ZRS"
+                ]
+        }
+    },
     "resources": [
         {
             "type" : "Microsoft.Storage/storageAccounts",
             "apiVersion":"2019-04-01",
-            "name":"adatumteststorage123",
+            "name":"[parameters('storageName')]",
             "location":"East US",
             "sku":{
-                "name":"Standard_LRS"
+                "name":"[parameters('storageSku')]"
             },
             "kind":"StorageV2",
             "properties": {
