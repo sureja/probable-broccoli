@@ -1,0 +1,29 @@
+az login
+
+az account list -o table
+
+az account set --subscription "Azure Pass - Sponsorship"
+
+#List all RGs
+az group list
+az group list --query [].name
+
+#Variable
+$rgName = 'rg-armtemplates'
+$location = 'East US'
+
+#create RG
+az group create `
+    --name $rgName `
+    --location $location
+
+az group list --query [].name
+
+#create blank template file
+$templateFile = 'adatumazuretemplate.json'
+$templateName = 'blanktemplate'
+
+az group deployment create `
+    --name $templateName    `
+    --resource-group $rgName    `
+    --template-file $templateFile
