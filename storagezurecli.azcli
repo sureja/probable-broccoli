@@ -20,9 +20,18 @@ az group create `
 az group list --query [].name
 
 #create blank template file
+$rgName = 'rg-armtemplates'
+$location = 'East US'
 $templateFile = 'adatumazuretemplate.json'
-$templateName = 'parametertemplate'
+$templateName = 'functiontemplate'
 $storageName = 'adatumstoragetest12345'
+
+#create StorageAccount with parameters storageName give
+az group deployment create `
+    --name $templateName    `
+    --resource-group $rgName    `
+    --template-file $templateFile   `
+    --parameters storageName=$storageName
 
 #create StorageAccount with parameters storageName give, SKU wrongly given
 az group deployment create `
@@ -30,5 +39,18 @@ az group deployment create `
     --resource-group $rgName    `
     --template-file $templateFile   `
     --parameters storageName=$storageName storageSku='Standard_GRS'
+
+#create StorageAccount with parameters storageName with a variable
+$rgName = 'rg-armtemplates'
+$location = 'East US'
+$templateFile = 'adatumazuretemplate.json'
+$templateName = 'variabletemplate'
+$storagePrefix = 'adatum'
+
+az group deployment create `
+    --name $templateName    `
+    --resource-group $rgName    `
+    --template-file $templateFile   `
+    --parameters storagePrefix=$storagePrefix
 
 az group delete --name $rgName --no-wait --yes 
